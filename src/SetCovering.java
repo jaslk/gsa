@@ -6,8 +6,8 @@ public class SetCovering {
     private int coste[]; //vector de N dimensiones que representa el costo de una columna j
 
 
-    public SetCovering(int N, int M){
-        matriz = new int[N][M];
+    public SetCovering(int M, int N){
+        matriz = new int[M][N];
         coste = new int[N];
     }
 }
