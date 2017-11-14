@@ -18,11 +18,18 @@ public class Agent {
 
     }
 
-   public void calculateForce(){
+   public double calculateForce(){
         force =
 
    }
 
+    public double calculateAceleration(){
+      return aceleration = (force / inertialMass);
+    }
 
+    public double calculateMass(){
+
+
+    }
 
 }
