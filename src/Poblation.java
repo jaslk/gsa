@@ -2,44 +2,74 @@ import java.util.ArrayList;
 
 public class Poblation {
 
-    private double initialGravity = 100; //constante de gravitación inicial Go
-    private double alpha = 20; //Alpha inicial
-    private int t_max = 100; //número máximo de iteraciones
-    private int totalAgents = 36; //cantidad total de agentes
+    private double initialGravity = 100;
+    private double alpha = 20;
+    private int iterations = 500;
+    private int totalAgents = 36;
     private double gconstant;
+    //CREAR ATRIBUTO MEJOR SOLUCIÓN
 
-    ArrayList<Agent> agents = new ArrayList<>();
+    private Agent agents[];
+
 
     public void execute(){
 
-        SetCovering scp = new SetCovering(36,totalAgents); // M = numero de restricciones - N = cantidad de regiones
+        int t=0; //iteración actual
+        createAgents(agents,totalAgents);//se crea arreglo de agentes
 
-        generatePob(scp);  //se genera la población inicial
+        //FUNCIÓN INICIALIZAR AGENTES
 
-        //AGREGAR FÓRMULA PARA INICIALIZAR LAS POSICIONES DE LOS AGENTES
-       /* for ( int i = 0; i<= totalAgents; i++ ){
-                agents.add(new Agent());
+        while(t<=iterations) {
+            //CALCULAR FITNESS PARA CADA AGENTE
+
+            //ACTUALIZAR CTE DE GRAVITACIÓN
+            gconstant = get_gconstant(initialGravity,alpha,t,iterations); //actualización de G(t)
+
+            //ACTUALIZAR MEJOR SOLUCIÓN
+
+            //ACTUALIZAR PEOR SOLUCIÓN
+
+            //CALCULAR MASA PARA CADA AGENTE
+
+            //ACTUALIZAR ACELERACIÓN PARA CADA AGENTE
+
+            //ACTUALIZAR POSICIÓN Y VELOCIDAD
+
+            t++;
         }
 
-        for (int i =0; i<iterations; i++){
-            for(Agent a: agents){
-                a.calculateForce();
-             }
-        }*/
-
-    }
-
-    //Función para calcular la constante de gravitación
-    public double get_gconstant(double initialGravity, double alpha, int t, int t_max){
-        gconstant = initialGravity * Math.exp(-alpha * (t/t_max));
-
-        return gconstant;
     }
 
 
+    //función que actualiza la constante de gravitación
+    public double get_gconstant(double initialGravity, double alpha, int t, int iterations){
+        double gt;
+        gt = initialGravity * Math.exp(-alpha * (t/iterations));
+        return gt;
+    }
 
-    //Se genera la población de manera random
-    public void generatePob(SetCovering scp){
+
+    //función que crea el arreglo de agentes
+    public Agent[] createAgents(Agent[] agents,int totalAgents){
+        for(int i=0; i<totalAgents; i++){
+            agents[i] = new Agent();
+        }
+        return agents;
+    }
+
+    //función que actualiza las fuerzas de cada agente
+    public void updateForceAgents(Agent[] agents, double gconstant){
+        for (int i=0; i<totalAgents; i++){
+            for (int j=0; j<totalAgents; j++){
+                if (i!=j){
+                    agents[i].calculateForce(gconstant,agents[j]);
+                }
+            }
+        }
+
 
     }
+
+
+
 }
