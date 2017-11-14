@@ -3,18 +3,21 @@
 public class Agent {
 
     private double inertialMass;
-    private double activeMass;
-    private double pasiveMass;
-    private double position;
-    private double velocity;
-    private double aceleration;
+    private double position[];
+    private double velocity[];
+    private double aceleration[];
     private double fitness;
-    private double force;
+    private double force[];
 
 
-    public Agent(){
 
-
+    public Agent(int dimention){
+        position = new double[dimention];
+        velocity = new double[dimention];
+        aceleration = new double[dimention];
+        force = new double[dimention];
+        inertialMass = 0;
+        fitness = 0;
 
     }
 
