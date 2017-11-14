@@ -57,9 +57,14 @@ public class Poblation {
         return agents;
     }
 
-    public void updateMassAgents(Agent[] agents, double gconstant){
+    //función que actualiza las fuerzas de cada agente
+    public void updateForceAgents(Agent[] agents, double gconstant){
         for (int i=0; i<totalAgents; i++){
-            agents[i].calculateForce(i,gconstant);
+                for (int j=0; j<totalAgents; j++){
+                    if (i!=j){
+                        agents[i].calculateForce(gconstant,agents[j]);
+                    }
+                }
         }
 
 

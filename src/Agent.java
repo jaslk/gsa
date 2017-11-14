@@ -17,18 +17,23 @@ public class Agent {
         velocity = new double[dimention];
         aceleration = new double[dimention];
         force = new double[dimention];
+
+        for(int i=0; i<dimention; i++){
+            position[i]=0;
+            velocity[i]=0;
+            aceleration[i]=0;
+            force[i]=0;
+        }
+
         inertialMass = 0;
         fitness = 0;
 
     }
 
-   public void calculateForce(int i, double gravitation) {
-       double tmpForce=0;
+   public void calculateForce(double gravitation, Agent agent_j) {
        Random rnd = new Random();
        for(int j=0; j<dimention; j++){
-           if(j!=i){
-               tmpForce = tmpForce + (rnd.nextFloat() * forceOtherAgents(gravitation));
-           }
+               force[j] = force[j] + (rnd.nextFloat() * forceOtherAgents(gravitation,agent_j,agent_j.position[j],this.position[j]));
        }
    }
 
@@ -46,12 +51,24 @@ public class Agent {
 
 
 
-    public double forceOtherAgents(double gravitation){
+    public double forceOtherAgents(double gravitation, Agent agent_j,double posj, double posi){
         double forceAct=0;
+        double epsilon=0.1;
 
-
+        forceAct = gravitation * ((this.inertialMass * agent_j.inertialMass)/(distance(this.position,agent_j.position)*epsilon))*(posj-posi);
 
         return forceAct;
     }
 
+    public double distance(double[] posAgentj,double[] posAgenti){
+        double r=0;
+        double sum=0;
+
+        for(int i=0; i<dimention; i++){
+            sum = sum + Math.pow(posAgentj[i]-posAgenti[i],2);
+        }
+        r = Math.pow(sum,0.5);
+
+        return r;
+    }
 }
