@@ -15,7 +15,6 @@ public class Agent {
     public Agent(){
 
 
-
     }
 
    public void calculateForce(){
