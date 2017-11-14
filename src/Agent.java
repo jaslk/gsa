@@ -3,6 +3,7 @@ import java.util.Random;
 public class Agent {
 
     private double inertialMass;
+    private double gravitationalMass;
     private double position[];
     private double velocity[];
     private double aceleration[];
@@ -70,5 +71,30 @@ public class Agent {
         r = Math.pow(sum,0.5);
 
         return r;
+    }
+
+    public double getFitness(){
+
+        return fitness;
+    }
+
+
+    public double getGravitationalMass(double best, double worst){
+
+        gravitationalMass=(this.getFitness()-worst)/(best-worst);
+
+        return gravitationalMass;
+    }
+
+    public double getInertialMass(double best, double worst, Agent[] agents){
+        double gravMassi=getGravitationalMass(best,worst);
+        double sumGravMassj=0;
+
+        for(int i=0; i<agents.length; i++){
+            sumGravMassj = sumGravMassj + agents[i].getGravitationalMass(best,worst);
+        }
+
+        inertialMass = gravMassi/sumGravMassj;
+        return inertialMass;
     }
 }
