@@ -8,10 +8,11 @@ public class Agent {
     private double aceleration[];
     private double fitness;
     private double force[];
+    private int dimention;
 
 
 
-    public Agent(int dimention){
+    public Agent(){
         position = new double[dimention];
         velocity = new double[dimention];
         aceleration = new double[dimention];

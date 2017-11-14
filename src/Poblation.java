@@ -2,15 +2,17 @@ import java.util.ArrayList;
 
 public class Poblation {
 
-    private double initialGravity = 20;
-    private double initialAceleration = 5;
+    private double initialGravity = 100;
+    private double initialAceleration = 20;
     private int iterations = 100;
     private int totalAgents = 36;
     private double gconstant;
+    private Agent agents[];
 
-    ArrayList<Agent> agents = new ArrayList<>();
 
     public void execute(){
+
+        createAgents(agents,totalAgents);
 
         //se inicializa la población
 
@@ -36,4 +38,11 @@ public class Poblation {
         return gconstant;
     }
 
+
+    public Agent[] createAgents(Agent[] agents,int totalAgents){
+        for(int i=0; i<totalAgents; i++){
+            agents[i] = new Agent();
+        }
+        return agents;
+    }
 }
