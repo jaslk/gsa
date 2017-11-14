@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Poblation {
 
     private double initialGravity = 100;
-    private double initialAceleration = 20;
+    private double alpha = 20;
     private int iterations = 100;
     private int totalAgents = 36;
     private double gconstant;
@@ -23,6 +23,7 @@ public class Poblation {
             //CALCULAR FITNESS PARA CADA AGENTE
 
             //ACTUALIZAR CTE DE GRAVITACIÓN
+            gconstant = get_gconstant(initialGravity,alpha,t,iterations);
 
             //ACTUALIZAR MEJOR SOLUCIÓN
 
@@ -33,15 +34,17 @@ public class Poblation {
             //ACTUALIZAR ACELERACIÓN PARA CADA AGENTE
 
             //ACTUALIZAR POSICIÓN Y VELOCIDAD
+
+            t++;
         }
 
     }
 
 
-    public double get_gconstant(double initialGravity, double initialAceleration, int i, int iterations){
-        gconstant = initialGravity * Math.exp(-initialAceleration * (i/iterations));
-
-        return gconstant;
+    public double get_gconstant(double initialGravity, double alpha, int t, int iterations){
+        double gt;
+        gt = initialGravity * Math.exp(-alpha * (t/iterations));
+        return gt;
     }
 
 
@@ -51,4 +54,6 @@ public class Poblation {
         }
         return agents;
     }
+
+
 }
