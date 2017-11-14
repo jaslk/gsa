@@ -18,4 +18,22 @@ public class SetCovering {
         }
         return totalCost;
     }
+
+    private static Vector<Vector<Float>> loadMatrixAsVector() throws Exception {
+        String line = null;
+        BufferedReader reader = new BufferedReader(new FileReader(
+                "D:\\test.txt"));
+        Vector<Vector<Float>> matrix = new Vector<Vector<Float>>();
+        while ((line = reader.readLine()) != null) {
+            Vector<Float> rowVector = new Vector<Float>();
+            for (String value : line.split(" ")) {
+                rowVector.add(Float.valueOf(value));
+            }
+            matrix.add(rowVector);
+        }
+        reader.close();
+
+        System.out.println("Matrix : " + matrix);
+        return matrix;
+    }
 }

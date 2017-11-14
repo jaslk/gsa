@@ -25,10 +25,9 @@ public class Poblation {
             for(Agent a: agents){
                 a.calculateForce();
              }
-        }
+        }*/
 
     }
-*/
 
     //Función para calcular la constante de gravitación
     public double get_gconstant(double initialGravity, double alpha, int t, int t_max){
@@ -36,6 +35,7 @@ public class Poblation {
 
         return gconstant;
     }
+
 
 
     //Se genera la población de manera random
