@@ -4,7 +4,7 @@ public class Poblation {
 
     private double initialGravity = 100;
     private double alpha = 20;
-    private int iterations = 100;
+    private int iterations = 500;
     private int totalAgents = 36;
     private double gconstant;
     //CREAR ATRIBUTO MEJOR SOLUCIÓN
@@ -23,7 +23,7 @@ public class Poblation {
             //CALCULAR FITNESS PARA CADA AGENTE
 
             //ACTUALIZAR CTE DE GRAVITACIÓN
-            gconstant = get_gconstant(initialGravity,alpha,t,iterations);
+            gconstant = get_gconstant(initialGravity,alpha,t,iterations); //actualización de G(t)
 
             //ACTUALIZAR MEJOR SOLUCIÓN
 
@@ -41,6 +41,7 @@ public class Poblation {
     }
 
 
+    //función que actualiza la constante de gravitación
     public double get_gconstant(double initialGravity, double alpha, int t, int iterations){
         double gt;
         gt = initialGravity * Math.exp(-alpha * (t/iterations));
@@ -48,12 +49,22 @@ public class Poblation {
     }
 
 
+    //función que crea el arreglo de agentes
     public Agent[] createAgents(Agent[] agents,int totalAgents){
         for(int i=0; i<totalAgents; i++){
             agents[i] = new Agent();
         }
         return agents;
     }
+
+    public void updateMassAgents(Agent[] agents, double gconstant){
+        for (int i=0; i<totalAgents; i++){
+            agents[i].calculateForce(i,gconstant);
+        }
+
+
+    }
+
 
 
 }
