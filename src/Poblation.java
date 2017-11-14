@@ -7,26 +7,32 @@ public class Poblation {
     private int iterations = 100;
     private int totalAgents = 36;
     private double gconstant;
+    //CREAR ATRIBUTO MEJOR SOLUCIÓN
+
     private Agent agents[];
 
 
     public void execute(){
 
-        createAgents(agents,totalAgents);
+        int t=0; //iteración actual
+        createAgents(agents,totalAgents);//se crea arreglo de agentes
 
-        //se inicializa la población
+        //FUNCIÓN INICIALIZAR AGENTES
 
+        while(t<=iterations) {
+            //CALCULAR FITNESS PARA CADA AGENTE
 
+            //ACTUALIZAR CTE DE GRAVITACIÓN
 
-        //AGREGAR FÓRMULA PARA INICIALIZAR LAS POSICIONES DE LOS AGENTES
-        for ( int i = 0; i<= totalAgents; i++ ){
-                agents.add(new Agent());
-        }
+            //ACTUALIZAR MEJOR SOLUCIÓN
 
-        for (int i =0; i<iterations; i++){
-            for(Agent a: agents){
-                a.calculateForce();
-             }
+            //ACTUALIZAR PEOR SOLUCIÓN
+
+            //CALCULAR MASA PARA CADA AGENTE
+
+            //ACTUALIZAR ACELERACIÓN PARA CADA AGENTE
+
+            //ACTUALIZAR POSICIÓN Y VELOCIDAD
         }
 
     }
