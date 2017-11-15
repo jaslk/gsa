@@ -25,7 +25,7 @@ public class Agent {
             aceleration[i] = 0;
             force[i] = 0;
         }
-        inertialMass = rnd.nextDouble() * (100000 - 100) + 100000;
+        inertialMass = rnd.nextDouble() * (100000 - 100) + 100000; //COMPROBARRRR ESTO
         fitness = 0;
 
     }
@@ -63,10 +63,15 @@ public class Agent {
     }
 
 
-    //FALTA CALCULO FUNCIÓN FITNESS
+    //se calcula el fitness de cada agente
     public double getFitness() {
+        this.fitness=0;
 
-        return fitness;
+        for(int i=0; i<this.position.length; i++){
+            this.fitness = this.fitness + this.position[i]*SetCovering.getInstance().getCost(i);
+        }
+
+        return this.fitness;
     }
 
 
@@ -150,6 +155,13 @@ public class Agent {
                 this.position[i] = 0;
             }
         }
+    }
+
+    public void updateG(int[] gBest){
+        for(int i=0; i<this.position[i]; i++){
+            gBest[i]=(int)this.position[i];
+        }
+
     }
 
 }

@@ -2,48 +2,50 @@ import java.util.ArrayList;
 
 public class Poblation {
 
-    private double initialGravity = 100;
-    private double alpha = 20;
-    private int iterations = 1000;
-    private int totalAgents = 40;
-    private double gconstant;
-    private double gSolution[];
-    private int dimention = 36;
+    private double initialGravity = 100; //Go
+    private double alpha = 20; // cte alpga
+    private int iterations = 1000; //cantidad total de iteraciones
+    private int totalAgents = 40; //cantidad total de agentes (soluciones)
+    private double gconstant; //G(t)
+    private int dimention = 36; //dimensión de las posiciones de los agentes
 
-    private Agent agents[];
-
+    private Agent agents[]; //arreglo de agentes
+    private int gSolution[]; //arreglo que contiene la mejor solución € [0,1]
 
     public void execute() {
 
         int t = 0; //iteración actual
         createAgents();//se crea arreglo de agentes
-        gSolution = new double[totalAgents];
 
-
-
-
+        for(int i=0; i<dimention; i++) {
+            gSolution[i] = 1;
+        }
 
         while (t <= iterations) {
-            binarization();
-            factandRepair();
-            //CALCULAR FITNESS PARA CADA AGENTE
+            binarization(); //proceso de binarización de las posiciones --> LISTO
 
-            //ACTUALIZAR CTE DE GRAVITACIÓN
-            gconstant = get_gconstant(initialGravity, alpha, t, iterations); //actualización de G(t)
+            factandRepair(); //proceso de factibilidad y reparación de soluciones -->
 
+            getFitness(); //se calcula el fitness para cada agente --> LISTO
 
-            //CALCULAR MASA PARA CADA AGENTE
-            updateIntertialMass();
+            updateGBest(); //se actualiza gBest --> LISTO
 
+            gconstant = get_gconstant(initialGravity, alpha, t, iterations); //actualización de G(t) --> LISTO
 
-            //ACTUALIZAR ACELERACIÓN PARA CADA AGENTE
-            updateAceleration();
+            updateIntertialMass(); //actualización de la masa inercial --> LISTO
 
-            //ACTUALIZAR POSICIÓN Y VELOCIDAD
-            updateVelandPos();
+            updateForceAgents(gconstant); //actualización de las fuerzas de gravitación --> LISTO
 
-            t++;
+            updateAceleration(); //actualización de las aceleraciones de cada agente --> LISTO
+
+            updateVelandPos(); // --> LISTO
+
+            t++; //avanza a la siguiente iteración
         }
+
+        /*
+            System.out.print("La mejor solución tiene un costo de: " + getBestSolution());
+         */
 
     }
 
@@ -64,7 +66,34 @@ public class Poblation {
         return agents;
     }
 
-    //función que actualiza las fuerzas de cada agente ---> NO SE DONDE OCUPO ESTA HUEA, REVISA BIEN FERNANDITA.
+
+    //función que calcula el fitness para cada agente
+    public void getFitness(){
+        for (int i=0; i<totalAgents; i++){
+            agents[i].getFitness();
+        }
+    }
+
+    //función que actualiza gBest
+    public void updateGBest(){
+        Agent bAgent=agents[0];
+        double fit;
+        double tmpBest = agents[0].getFitness(); //Se asigna primer fitness como el mínimo (mejor solución)
+
+        for (int i = 1; i < agents.length; i++) {
+            fit = agents[i].getFitness();
+            if (fit < tmpBest){ //si el fitness del agent i es menor al minimo actual, queda ese
+                tmpBest = fit;
+                bAgent=agents[i];
+            }
+        }
+
+        bAgent.updateG(gSolution);
+
+
+    }
+
+    //función que actualiza las fuerzas de cada agente
     public void updateForceAgents(double gconstant) {
         for (int i = 0; i < agents.length; i++) {
             for (int j = 0; j < agents.length; j++) {
@@ -73,13 +102,11 @@ public class Poblation {
                 }
             }
         }
-
-
     }
 
 
-    //actualiza la mejor solución
-    public double updateBestSolution() {
+    //retorna la mejor solución
+    public double getBestSolution() {
         double tmpBest;
         double fit;
         tmpBest = agents[0].getFitness(); //Se asigna primer fitness como el mínimo (mejor solución)
@@ -94,8 +121,8 @@ public class Poblation {
         return tmpBest;
     }
 
-    //actualiza la peor solución
-    public double updateWorstSolution() {
+    //retorna la peor solución
+    public double getWorstSolution() {
         double tmpWorst=0; //Se asigna 0 como primer fitness -> se busca el mayor (peor solución)
         double fit;
 
@@ -105,7 +132,6 @@ public class Poblation {
                 tmpWorst = fit;
             }
         }
-
         return tmpWorst;
     }
 
@@ -113,7 +139,7 @@ public class Poblation {
     //actualiza la masa inercial de cada agente
     public void updateIntertialMass() {
         for (int i = 0; i < agents.length; i++) {
-                agents[i].getInertialMass(updateBestSolution(), updateWorstSolution(), agents);
+                agents[i].getInertialMass(getBestSolution(), getWorstSolution(), agents);
             }
 
     }
@@ -147,7 +173,6 @@ public class Poblation {
         for(int i=0; i<agents.length; i++){
             agents[i].binarization();
         }
-
     }
 
 }
