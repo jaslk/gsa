@@ -24,23 +24,24 @@ public class Poblation {
         while (t <= iterations) {
             binarization(); //proceso de binarización de las posiciones --> LISTO
 
-            factandRepair(); //proceso de factibilidad y reparación de soluciones -->
+            if(factandRepair()) { //proceso de factibilidad y reparación de soluciones -->
 
-            getFitness(); //se calcula el fitness para cada agente --> LISTO
+                getFitness(); //se calcula el fitness para cada agente --> LISTO
 
-            updateGBest(); //se actualiza gBest --> LISTO
+                updateGBest(); //se actualiza gBest --> LISTO
 
-            gconstant = get_gconstant(initialGravity, alpha, t, iterations); //actualización de G(t) --> LISTO
+                gconstant = get_gconstant(initialGravity, alpha, t, iterations); //actualización de G(t) --> LISTO
 
-            updateIntertialMass(); //actualización de la masa inercial --> LISTO
+                updateIntertialMass(); //actualización de la masa inercial --> LISTO
 
-            updateForceAgents(gconstant); //actualización de las fuerzas de gravitación --> LISTO
+                updateForceAgents(gconstant); //actualización de las fuerzas de gravitación --> LISTO
 
-            updateAceleration(); //actualización de las aceleraciones de cada agente --> LISTO
+                updateAceleration(); //actualización de las aceleraciones de cada agente --> LISTO
 
-            updateVelandPos(); // --> LISTO
+                updateVelandPos(); // --> LISTO
 
-            t++; //avanza a la siguiente iteración
+                t++; //avanza a la siguiente iteración
+            }
         }
 
         /*
@@ -160,12 +161,13 @@ public class Poblation {
     }
 
     //comprueba si es factible un agente, en caso de no serlo lo repara
-    public void factandRepair(){
+    public boolean factandRepair(){
         for (int i=0; i<agents.length; i++){
-            if(!agents[i].isFactible()){
+            while(!agents[i].isFactible()){
                 agents[i].repair();
             }
         }
+        return true;
     }
 
     //binariza cada agente

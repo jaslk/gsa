@@ -139,8 +139,12 @@ public class Agent {
 
     //repara una solución convirtiéndola en solución factible
     public void repair() {
-
-
+        int index;
+        index = SetCovering.getInstance().resetNextMinium();
+        while(this.position[index]==1 && index<36) {
+            index = SetCovering.getInstance().getNextMiniumIndex();
+        }
+            this.position[index]=1;
     }
 
 
