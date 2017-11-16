@@ -5,7 +5,8 @@
 public class Test {
 
     public static void main(String args[]) throws Exception {
-        SetCovering.loadMatrix();
+        for (int i = 0; i < SetCovering.getInstance().getCostSize() + 1; i++)
+            System.out.println(SetCovering.getInstance().getNextMiniumIndex());
     }
 
 
