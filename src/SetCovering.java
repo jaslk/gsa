@@ -4,6 +4,14 @@ import java.util.Vector;
 
 public class SetCovering {
 
+    private int N; //cantidad de columnas de la matriz binaria
+    private int M; //cantidad de filas de la matriz binaria
+    private Vector<Vector<Integer>> matrix = new Vector<>();//matriz binaria de dimensiones MxN
+    private Vector<Float> costs = new Vector<>(); //vector de N dimensiones que representa el costo de una columna j
+
+    // Minimo
+    private Vector<Integer> miniumBin = new Vector<>();//matriz binaria de dimensiones MxN
+
     //Singleton
     private static SetCovering instance;
 
@@ -11,6 +19,7 @@ public class SetCovering {
         try {
             loadCost();
             loadMatrix();
+            resetNextMinium();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -22,13 +31,6 @@ public class SetCovering {
         }
         return instance;
     }
-
-    private int N; //cantidad de columnas de la matriz binaria
-    private int M; //cantidad de filas de la matriz binaria
-
-
-    private Vector<Vector<Integer>> matrix = new Vector<>();//matriz binaria de dimensiones MxN
-    private Vector<Float> costs = new Vector<>(); //vector de N dimensiones que representa el costo de una columna j
 
 
     public double calculateCost(int i) {
@@ -84,5 +86,37 @@ public class SetCovering {
         return costs.size();
     }
 
+    private void setZeroNumBin() {
+        for (int i = 0; i < getCostSize(); i++) {
+            miniumBin.add(1);
+        }
+    }
 
+    public int getNextMiniumIndex() {
+        return getIndexMinium();
+    }
+
+    public void resetNextMinium() {
+        setZeroNumBin();
+    }
+
+    private int getIndexMinium() {
+        // se elige como minimo el primer numero valido
+        int j = 0;
+        while (miniumBin.get(j) == 0)
+            j++;
+        // Se asgina dichos valores minimos iniciales
+        float minium = costs.get(j);
+        int final_index = j;
+        // Se encuentra el numevo minimo
+        for (int i = 0; i < getCostSize(); i++) {
+            if ((costs.get(i) < minium) && miniumBin.get(i) == 1) {
+                minium = costs.get(i);
+                final_index = i;
+            }
+        }
+        // Se merca el minimo como utilizado
+        miniumBin.set(final_index, 0); // Colocar en 0
+        return final_index;
+    }
 }
