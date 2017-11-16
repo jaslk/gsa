@@ -66,7 +66,7 @@ public class SetCovering {
         }
     }
 
-    public int getContrain(int i, int j) {
+    public int getConstrain(int i, int j) {
         return matrix.get(i).get(j);
     }
 
@@ -74,11 +74,11 @@ public class SetCovering {
         return costs.get(i);
     }
 
-    public int getContrainsRowSize() {
+    public int getConstrainsRowSize() {
         return matrix.size();
     }
 
-    public int getContrainsColumnSize() {
+    public int getConstrainsColumnSize() {
         return matrix.firstElement().size();
     }
 

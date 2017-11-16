@@ -122,7 +122,7 @@ public class Agent {
 
     //función que retorna true si la solución es factible y 0 en caso de no serla
     public boolean isFactible() {
-        int sum = 0;
+        double sum = 0;
 
         for (int j = 0; j <SetCovering.getInstance().getConstrainsRowSize(); j++) {
             for (int i = 0; i < this.position.length; i++) { //comprueba si cumple con una restricción
@@ -139,8 +139,8 @@ public class Agent {
 
     //repara una solución convirtiéndola en solución factible
     public void repair() {
-        int index;
-        index = SetCovering.getInstance().resetNextMinium();
+        SetCovering.getInstance().resetNextMinium();
+        int index = SetCovering.getInstance().getNextMiniumIndex();
         while(this.position[index]==1 && index<36) {
             index = SetCovering.getInstance().getNextMiniumIndex();
         }
