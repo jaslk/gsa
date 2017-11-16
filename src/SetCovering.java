@@ -87,6 +87,7 @@ public class SetCovering {
     }
 
     private void setZeroNumBin() {
+        miniumBin.removeAllElements();
         for (int i = 0; i < getCostSize(); i++) {
             miniumBin.add(1);
         }

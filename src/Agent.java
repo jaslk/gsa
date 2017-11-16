@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Vector;
 
 public class Agent {
 
@@ -27,6 +28,7 @@ public class Agent {
         }
         inertialMass = rnd.nextDouble() * (100000 - 100) + 100000; //COMPROBARRRR ESTO
         fitness = 0;
+
 
     }
 
@@ -65,10 +67,10 @@ public class Agent {
 
     //se calcula el fitness de cada agente
     public double getFitness() {
-        this.fitness=0;
+        this.fitness = 0;
 
-        for(int i=0; i<this.position.length; i++){
-            this.fitness = this.fitness + this.position[i]*SetCovering.getInstance().getCost(i);
+        for (int i = 0; i < this.position.length; i++) {
+            this.fitness = this.fitness + this.position[i] * SetCovering.getInstance().getCost(i);
         }
 
         return this.fitness;
@@ -112,7 +114,7 @@ public class Agent {
 
     //se actualiza la velocidad y posición del agente
     public void calculateVelocityandPosition() {
-        for (int i = 0; i < this.position.length; i++) {
+        for (int i = 0; i < this.position.length - 1; i++) {
             this.velocity[i + 1] = rnd.nextFloat() * this.velocity[i] + this.aceleration[i];
             this.position[i + 1] = this.position[i] + this.velocity[i + 1];
         }
@@ -124,7 +126,8 @@ public class Agent {
     public boolean isFactible() {
         double sum = 0;
 
-        for (int j = 0; j <SetCovering.getInstance().getConstrainsRowSize(); j++) {
+
+        for (int j = 0; j < SetCovering.getInstance().getConstrainsRowSize(); j++) {
             for (int i = 0; i < this.position.length; i++) { //comprueba si cumple con una restricción
                 sum = sum + this.position[i] * SetCovering.getInstance().getConstrain(j, i);
             }
@@ -133,6 +136,12 @@ public class Agent {
             }
             sum = 0;
         }
+
+        for (int i = 0; i < SetCovering.getInstance().getCostSize(); i++) {
+            System.out.print((int) position[i] + "|");
+        }
+        System.out.println();
+
         return true; //si cumple con todas las restricciones retorna true
     }
 
@@ -141,10 +150,12 @@ public class Agent {
     public void repair() {
         SetCovering.getInstance().resetNextMinium();
         int index = SetCovering.getInstance().getNextMiniumIndex();
-        while(this.position[index]==1 && index<36) {
+        int count = 0;
+        while (this.position[index] == 1 && count < SetCovering.getInstance().getCostSize() - 1) {
             index = SetCovering.getInstance().getNextMiniumIndex();
+            count++;
         }
-            this.position[index]=1;
+        this.position[index] = 1;
     }
 
 
@@ -159,11 +170,12 @@ public class Agent {
                 this.position[i] = 0;
             }
         }
+
     }
 
-    public void updateG(int[] gBest){
-        for(int i=0; i<this.position[i]; i++){
-            gBest[i]=(int)this.position[i];
+    public void updateG(Vector<Integer> gBest) {
+        for (int i = 0; i < gBest.size(); i++) {
+            gBest.set(i, (int) this.position[i]);
         }
 
     }
