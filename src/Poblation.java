@@ -10,6 +10,7 @@ public class Poblation {
     private int dimention = SetCovering.getInstance().getCostSize(); //dimensión de las posiciones de los agentes
 
     private Agent agents[] = new Agent[totalAgents]; //arreglo de agentes
+    private Agent bestAgent;
     private Vector<Integer> gSolution = new Vector<>(); //arreglo que contiene la mejor solución € [0,1]
 
     public void execute() {
@@ -42,12 +43,9 @@ public class Poblation {
             updateGBest(); //se actualiza gBest --> LISTO
         }
 
-
-        System.out.println();
-
         System.out.println("Total : " + getBestSolution());
-        System.out.print("La mejor solución tiene un costo de: " + gSolution);
-        float suma = 0;
+        System.out.print("La mejor solución tiene un costo de: ");
+        bestAgent.printPosition();
 
     }
 
@@ -78,7 +76,7 @@ public class Poblation {
 
     //función que actualiza gBest
     public void updateGBest() {
-        Agent bAgent = agents[0];
+        bestAgent = agents[0];
         double fit;
         double tmpBest = agents[0].getFitness(); //Se asigna primer fitness como el mínimo (mejor solución)
 
@@ -86,8 +84,7 @@ public class Poblation {
             fit = agents[i].getFitness();
             if (fit < tmpBest) { //si el fitness del agent i es menor al minimo actual, queda ese
                 tmpBest = fit;
-                bAgent = agents[i];
-                gSolution = bAgent.getPosition();
+                bestAgent = agents[i];
             }
         }
     }
