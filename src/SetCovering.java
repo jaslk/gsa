@@ -4,16 +4,14 @@ import java.util.Vector;
 
 public class SetCovering {
 
+    //Singleton
+    private static SetCovering instance;
     private int N; //cantidad de columnas de la matriz binaria
     private int M; //cantidad de filas de la matriz binaria
     private Vector<Vector<Integer>> matrix = new Vector<>();//matriz binaria de dimensiones MxN
     private Vector<Float> costs = new Vector<>(); //vector de N dimensiones que representa el costo de una columna j
-
     // Minimo
     private Vector<Integer> miniumBin = new Vector<>();//matriz binaria de dimensiones MxN
-
-    //Singleton
-    private static SetCovering instance;
 
     private SetCovering() {
         try {

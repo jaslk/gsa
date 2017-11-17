@@ -4,7 +4,7 @@ public class Poblation {
 
     private double initialGravity = 100; //Go
     private double alpha = 20; // cte alpga
-    private int iterations = 3000; //cantidad total de iteraciones
+    private int iterations = 100; //cantidad total de iteraciones
     private int totalAgents = 40; //cantidad total de agentes (soluciones)
     private double gconstant; //G(t)
     private int dimention = SetCovering.getInstance().getCostSize(); //dimensión de las posiciones de los agentes
@@ -22,19 +22,9 @@ public class Poblation {
         }
 
         while (t <= iterations) {
-
-
-            /*for (Agent agent : agents){
-                System.out.println();
-                agent.printPosition();
-            }*/
-
-
             factandRepair(); //proceso de factibilidad y reparación de soluciones -->
 
             getFitness(); //se calcula el fitness para cada agente --> LISTO
-
-            updateGBest(); //se actualiza gBest --> LISTO
 
             gconstant = get_gconstant(initialGravity, alpha, t, iterations); //actualización de G(t) --> LISTO
 
@@ -48,18 +38,16 @@ public class Poblation {
 
             t++; //avanza a la siguiente iteración
             binarization();
+
+            updateGBest(); //se actualiza gBest --> LISTO
         }
 
 
-
-        System.out.println();
         System.out.println();
 
-        System.out.println("--------------------------------------------------- : " + getBestSolution());
-
-
-
-            System.out.print("La mejor solución tiene un costo de: " + gSolution);
+        System.out.println("Total : " + getBestSolution());
+        System.out.print("La mejor solución tiene un costo de: " + gSolution);
+        float suma = 0;
 
     }
 
@@ -67,8 +55,7 @@ public class Poblation {
     //función que actualiza la constante de gravitación
     public double get_gconstant(double initialGravity, double alpha, int t, int iterations) {
         double gt;
-        gt = initialGravity * Math.exp(-alpha * (t /(float) iterations));
-       //System.out.println(gt);
+        gt = initialGravity * Math.exp(-alpha * (t / (float) iterations));
         return gt;
     }
 
@@ -100,10 +87,9 @@ public class Poblation {
             if (fit < tmpBest) { //si el fitness del agent i es menor al minimo actual, queda ese
                 tmpBest = fit;
                 bAgent = agents[i];
+                gSolution = bAgent.getPosition();
             }
         }
-
-        bAgent.updateG(gSolution);
     }
 
     //función que actualiza las fuerzas de cada agente

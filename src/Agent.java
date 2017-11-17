@@ -3,6 +3,7 @@ import java.util.Vector;
 
 public class Agent {
 
+    protected final long seed = System.currentTimeMillis();
     private double inertialMass;
     private double gravitationalMass;
     private double position[];
@@ -11,8 +12,6 @@ public class Agent {
     private float fitness;
     private double force[];
     private double euler = 2.71828;
-
-    protected final long seed = System.currentTimeMillis();
     private Random rnd = new Random(seed);
 
 
@@ -38,7 +37,6 @@ public class Agent {
     public void calculateForce(double gravitation, Agent agent_j) {
         for (int j = 0; j < this.position.length; j++) {
             this.force[j] = this.force[j] + ((rnd.nextFloat() + 1) * forceOtherAgents(gravitation, agent_j, agent_j.position[j], this.position[j]));
-            //System.out.println(this.force[j]);
         }
     }
 
@@ -49,8 +47,6 @@ public class Agent {
         double epsilon = 0.1;
 
         forceAct = gravitation * ((this.inertialMass * agent_j.inertialMass) / (float) (distance(this.position, agent_j.position) + epsilon)) * Math.abs(posj - posi);
-
-        // System.out.println(forceAct + " " + this.inertialMass +" " + " " + agent_j.inertialMass);
         return forceAct;
     }
 
@@ -65,7 +61,6 @@ public class Agent {
         }
         r = Math.pow(sum, 0.5);
 
-        // System.out.println(r);
         return r;
     }
 
@@ -73,20 +68,9 @@ public class Agent {
     //se calcula el fitness de cada agente
     public double getFitness() {
         this.fitness = 0;
-
         for (int i = 0; i < this.position.length; i++) {
-            //System.out.println(this.position[i]);
-            this.fitness = this.fitness + (float) this.position[i] * SetCovering.getInstance().getCost(i);
+            this.fitness += this.position[i] * SetCovering.getInstance().getCost(i);
         }
-
-        //System.out.println("Fitness: " + this.fitness + " - AGENTE x" );
-       /* for(int i=0; i<this.position.length; i++){
-            System.out.print((int)this.position[i]+ "|");
-        }
-        System.out.println();
-        System.out.println();
-
-*/
         return this.fitness;
 
 
@@ -96,8 +80,6 @@ public class Agent {
     //se calcula la masa gravitacional
     public double getGravitationalMass(double best, double worst) {
         gravitationalMass = (this.getFitness() - worst) / (best - worst);
-        /*System.out.println("Masa gravitacional: " + this.gravitationalMass + "AGENTE x" );
-        System.out.println();*/
         return gravitationalMass;
     }
 
@@ -106,15 +88,9 @@ public class Agent {
     public void getInertialMass(double best, double worst, Agent[] agents) {
         double gravMassi = getGravitationalMass(best, worst);
         double sumGravMassj = 0;
-
         for (int i = 0; i < agents.length; i++) {
             sumGravMassj = sumGravMassj + agents[i].getGravitationalMass(best, worst);
         }
-/*
-        System.out.println("Masa inercial: " + this.inertialMass + "AGENTE x" );
-        System.out.println();
-        this.inertialMass = gravMassi / sumGravMassj;
-*/
     }
 
 
@@ -129,7 +105,6 @@ public class Agent {
 
         for (int i = 0; i < this.position.length; i++) {
             this.aceleration[i] = this.force[i] / this.inertialMass;
-            // System.out.println( this.aceleration[i]);
         }
 
 
@@ -140,8 +115,6 @@ public class Agent {
     public void calculateVelocityandPosition() {
         for (int i = 0; i < this.position.length - 1; i++) {
             this.velocity[i + 1] = rnd.nextFloat() * this.velocity[i] + this.aceleration[i];
-
-            //  System.out.println( this.velocity[i + 1]);
             this.position[i + 1] = this.position[i] + this.velocity[i + 1];
         }
 
@@ -178,11 +151,6 @@ public class Agent {
             count++;
         }
         this.position[index] = 1;
-/*
-        for(int i=0; i<this.position.length; i++){
-            System.out.print((int)position[i]+ "|");
-        }
-        System.out.println();*/
     }
 
     public void printPosition() {
@@ -197,9 +165,7 @@ public class Agent {
         double sigmoide;
 
         for (int i = 0; i < this.position.length; i++) {
-            sigmoide = (1 / (1 + Math.exp(-this.position[i]%5)));
-            //System.out.println("sigmoide:" + sigmoide);
-            //System.out.println("position:" + this.position[i]%50);
+            sigmoide = (1 / (1 + Math.exp(-this.position[i] % 5)));
             if (sigmoide + 0.025 > 1) {
                 this.position[i] = 1;
             } else {
@@ -214,6 +180,15 @@ public class Agent {
             gBest.set(i, (int) this.position[i]);
         }
 
+    }
+
+
+    public Vector<Integer> getPosition() {
+        Vector<Integer> gBest = new Vector<>();
+        for (double aPosition : position) {
+            gBest.add((int) aPosition);
+        }
+        return gBest;
     }
 
 }
