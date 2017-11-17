@@ -4,7 +4,7 @@ public class Poblation {
 
     private double initialGravity = 100; //Go
     private double alpha = 20; // cte alpga
-    private int iterations = 3000; //cantidad total de iteraciones
+    private int iterations = 3; //cantidad total de iteraciones
     private int totalAgents = 40; //cantidad total de agentes (soluciones)
     private double gconstant; //G(t)
     private int dimention = SetCovering.getInstance().getCostSize(); //dimensión de las posiciones de los agentes
@@ -44,7 +44,7 @@ public class Poblation {
         }
 
         System.out.println("Total : " + getBestSolution());
-        System.out.print("La mejor solución tiene un costo de: ");
+        System.out.print("La mejor solución tiene un costo de:\n");
         bestAgent.printPosition();
 
     }

@@ -154,8 +154,11 @@ public class Agent {
     }
 
     public void printPosition() {
+        int idValue;
         for (int i = 0; i < this.position.length; i++) {
-            System.out.print((int) position[i] + "|");
+            idValue = i + 2;
+            idValue = idValue > 31 ? idValue+1 : idValue;
+            System.out.print("[ID: " + idValue + "] -> " + (int) position[i] + "\n");
         }
     }
 
