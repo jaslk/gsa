@@ -157,7 +157,7 @@ public class Agent {
         int idValue;
         for (int i = 0; i < this.position.length; i++) {
             idValue = i + 2;
-            idValue = idValue > 31 ? idValue+1 : idValue;
+            idValue = idValue > 31 ? idValue + 1 : idValue;
             System.out.print("[ID: " + idValue + "] -> " + (int) position[i] + "\n");
         }
     }
